@@ -1,6 +1,6 @@
 class Cell(object): 
-    def __init__(self, coordinate):
-        self.coordinate = coordinate
+    def __init__(self, column):
+        self.column = column
         self.ship = None
         self.is_fired_upon = False
 
