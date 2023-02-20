@@ -1,8 +1,11 @@
-import unittest      
+import unittest
+from unittest.mock import patch
 
-from models.ship import Ship
+
 from models.cell import Cell
+from models.ship import Ship
 from models.game_board import GameBoard
+from models.game_play import GamePlay
 
 class Battleship(unittest.TestCase):
     def test_ship(self):
@@ -11,19 +14,18 @@ class Battleship(unittest.TestCase):
         self.assertEqual(cruiser.name, "Cruiser")
         self.assertEqual(cruiser.length, 3)
         self.assertEqual(cruiser.health, 3)
-        self.assertEqual(cruiser.is_sunk, False)
+        self.assertEqual(cruiser.is_sunk(), False)
         cruiser.hit()
         self.assertEqual(cruiser.health, 2)
         cruiser.hit()
         self.assertEqual(cruiser.health, 1)
         cruiser.hit()
         self.assertEqual(cruiser.health, 0)
-        self.assertEqual(cruiser.is_sunk, True)
+        self.assertEqual(cruiser.is_sunk(), True)
 
     def test_cell(self):
-        cell = Cell("1")
+        cell = Cell()
         self.assertEqual(type(cell), Cell)
-        self.assertEqual(cell.column, "1")
         self.assertEqual(cell.ship, None)
         cruiser = Ship("Cruiser", 3)
         cell.place_ship(cruiser)
@@ -31,7 +33,7 @@ class Battleship(unittest.TestCase):
         self.assertNotEqual(cell.ship, None)
 
     def test_cell_and_ship_firing(self):
-        cell = Cell("1")
+        cell = Cell()
         cruiser = Ship("Cruiser", 3)
         cell.place_ship(cruiser)
         self.assertEqual(cell.is_fired_upon, False)
@@ -40,7 +42,7 @@ class Battleship(unittest.TestCase):
         self.assertEqual(cell.is_fired_upon, True)
 
     def test_cell_rendering(self):
-        cell_1 = Cell("1")
+        cell_1 = Cell()
         cruiser = Ship("Cruiser", 3)
         self.assertEqual(cell_1.render(), ".")
         # Fire upon empty cell - should show "M" for miss 
@@ -48,10 +50,10 @@ class Battleship(unittest.TestCase):
         self.assertEqual(cell_1.render(), "M")
         # Place ship on 3 cells - and fire again - check behavior 
         cruiser = Ship("Cruiser", 3)
-        cell_2 = Cell("2")
-        cell_3 = Cell("3")
-        cell_4 = Cell("4")
-        cell_5 = Cell("5")
+        cell_2 = Cell()
+        cell_3 = Cell()
+        cell_4 = Cell()
+        cell_5 = Cell()
         cell_3.place_ship(cruiser)
         cell_4.place_ship(cruiser)
         cell_2.place_ship(cruiser)
@@ -61,7 +63,7 @@ class Battleship(unittest.TestCase):
         cell_3.fire_upon()
         self.assertEqual(cell_2.render(), "H")
         cell_4.fire_upon()
-        self.assertEqual(cruiser.is_sunk, True)
+        self.assertEqual(cruiser.is_sunk(), True)
         self.assertEqual(cell_1.render(), "M")
         self.assertEqual(cell_2.render(), "X")
         self.assertEqual(cell_3.render(), "X")
@@ -110,6 +112,25 @@ class Battleship(unittest.TestCase):
         self.assertEqual(cell_3.ship, cell_2.ship)
 
         self.assertEqual(board.is_valid_placement(submarine, ["A1", "A2"]), False)
+
+    def test_game_board_render(self):
+        board = GameBoard()
+        cruiser = Ship("Cruiser", 3)
+        submarine = Ship("Submarine", 2)
+
+        board.place_ship(cruiser, ["A1", "A2", "A3"])
+        board.place_ship(submarine, ["B1", "B2"])
+
+        self.assertEqual(board.render(), '    1 2 3 4 \n  A . . . . \n  B . . . . \n  C . . . . \n  D . . . . \n')
+        self.assertEqual(board.render(True), '    1 2 3 4 \n  A S S S . \n  B S S . . \n  C . . . . \n  D . . . . \n')
+
+        board.grid['A'][0].fire_upon()
+        board.grid['A'][1].fire_upon()
+        board.grid['B'][0].fire_upon()
+        board.grid['B'][1].fire_upon()
+
+        self.assertEqual(board.render(), '    1 2 3 4 \n  A H H . . \n  B X X . . \n  C . . . . \n  D . . . . \n')
+
 
 
 if __name__ == '__main__':

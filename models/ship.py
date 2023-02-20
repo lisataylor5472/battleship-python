@@ -3,12 +3,13 @@ class Ship(object):
         self.name = name
         self.length = length
         self.health = length
-        self.is_sunk = False
-
 
     def hit(self): 
         self.health -= 1 
-        if self.health == 0:
-            self.is_sunk = True 
- 
+
+    def is_sunk(self): 
+        if self.health > 0: 
+            return False
+        else: 
+            return True
 

@@ -4,10 +4,10 @@ from models.cell import Cell
 class GameBoard(object): 
     def __init__(self):
         self.grid = {
-            'A': [Cell('1'), Cell('2'), Cell('3'), Cell('4')], 
-            'B': [Cell('1'), Cell('2'), Cell('3'), Cell('4')],
-            'C': [Cell('1'), Cell('2'), Cell('3'), Cell('4')],
-            'D': [Cell('1'), Cell('2'), Cell('3'), Cell('4')],
+            'A': [Cell() for n in range(4)], 
+            'B': [Cell() for n in range(4)],
+            'C': [Cell() for n in range(4)],
+            'D': [Cell() for n in range(4)],
         }
 
     def is_valid_coordinate(self, coordinate):
@@ -59,4 +59,20 @@ class GameBoard(object):
                 cell = self.grid[coord[0]][int(coord[1]) - 1]
                 # Assign the ship to the cell
                 cell.ship = ship
+
+
+    def render(self, show_ships=False):
+        rendered_board = {}
+
+        for row in self.grid.keys():
+            rendered_board[row] = ''
+            for cell in self.grid[row]:
+                rendered_board[row] += cell.render(show_ships) + " "
+        render_str = '    1 2 3 4 \n' + \
+            '  A ' + rendered_board['A'] + '\n' \
+            '  B ' + rendered_board['B'] + '\n' \
+            '  C ' + rendered_board['C'] + '\n' \
+            '  D ' + rendered_board['D'] + '\n' 
+
+        return render_str
 

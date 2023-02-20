@@ -1,6 +1,5 @@
 class Cell(object): 
-    def __init__(self, column):
-        self.column = column
+    def __init__(self):
         self.ship = None
         self.is_fired_upon = False
 
@@ -10,19 +9,17 @@ class Cell(object):
     
     def fire_upon(self):
         self.is_fired_upon = True
-        if self.ship is not None:
+        if self.ship != None:
             self.ship.hit()
 
     def render(self, show_ships=False): 
-        if self.is_fired_upon == True: 
-            if self.ship == None: 
-                return "M"
-            elif self.ship.is_sunk == True: 
-                return "X"
-            else:
-                self.ship.hit()
-                return "H"
-        elif show_ships == True and self.ship != None: 
-            return "S"
+        if self.ship != None and self.ship.is_sunk() == True:
+            return 'X'
+        elif self.ship != None and self.is_fired_upon == True:
+            return 'H'
+        elif self.ship == None and self.is_fired_upon == True:
+            return 'M'
+        elif self.ship != None and show_ships == True: 
+            return 'S'
         else: 
-            return "." 
+            return '.'
