@@ -121,15 +121,15 @@ class Battleship(unittest.TestCase):
         board.place_ship(cruiser, ["A1", "A2", "A3"])
         board.place_ship(submarine, ["B1", "B2"])
 
-        self.assertEqual(board.render(), '    1 2 3 4 \n  A . . . . \n  B . . . . \n  C . . . . \n  D . . . . \n')
-        self.assertEqual(board.render(True), '    1 2 3 4 \n  A S S S . \n  B S S . . \n  C . . . . \n  D . . . . \n')
+        self.assertEqual(board.render(), '    1 2 3 4 5 6\n  A . . . . . . \n  B . . . . . . \n  C . . . . . . \n  D . . . . . . \n  E . . . . . . \n  F . . . . . . \n')
+        self.assertEqual(board.render(True), '    1 2 3 4 5 6\n  A S S S . . . \n  B S S . . . . \n  C . . . . . . \n  D . . . . . . \n  E . . . . . . \n  F . . . . . . \n')
 
         board.grid['A'][0].fire_upon()
         board.grid['A'][1].fire_upon()
         board.grid['B'][0].fire_upon()
         board.grid['B'][1].fire_upon()
 
-        self.assertEqual(board.render(), '    1 2 3 4 \n  A H H . . \n  B X X . . \n  C . . . . \n  D . . . . \n')
+        self.assertEqual(board.render(), '    1 2 3 4 5 6\n  A H H . . . . \n  B X X . . . . \n  C . . . . . . \n  D . . . . . . \n  E . . . . . . \n  F . . . . . . \n')
 
 
 
