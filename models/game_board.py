@@ -4,10 +4,12 @@ from models.cell import Cell
 class GameBoard(object): 
     def __init__(self):
         self.grid = {
-            'A': [Cell() for n in range(4)], 
-            'B': [Cell() for n in range(4)],
-            'C': [Cell() for n in range(4)],
-            'D': [Cell() for n in range(4)],
+            'A': [Cell() for n in range(6)], 
+            'B': [Cell() for n in range(6)],
+            'C': [Cell() for n in range(6)],
+            'D': [Cell() for n in range(6)],
+            'E': [Cell() for n in range(6)],
+            'F': [Cell() for n in range(6)],
         }
 
     def is_valid_coordinate(self, coordinate):
@@ -35,9 +37,9 @@ class GameBoard(object):
             if cell.ship != None: 
                 return False
 
-        if len(set(rows)) == 1 and ''.join(columns) in '1234':
+        if len(set(rows)) == 1 and ''.join(columns) in '123456':
             return True
-        elif len(set(columns)) == 1 and ''.join(rows) in 'ABCD':
+        elif len(set(columns)) == 1 and ''.join(rows) in 'ABCDEF':
             return True
         else: 
             return False
@@ -68,11 +70,13 @@ class GameBoard(object):
             rendered_board[row] = ''
             for cell in self.grid[row]:
                 rendered_board[row] += cell.render(show_ships) + " "
-        render_str = '    1 2 3 4 \n' + \
+        render_str = '    1 2 3 4 5 6\n' + \
             '  A ' + rendered_board['A'] + '\n' \
             '  B ' + rendered_board['B'] + '\n' \
             '  C ' + rendered_board['C'] + '\n' \
-            '  D ' + rendered_board['D'] + '\n' 
+            '  D ' + rendered_board['D'] + '\n' \
+            '  E ' + rendered_board['E'] + '\n' \
+            '  F ' + rendered_board['F'] + '\n' 
 
         return render_str
 
