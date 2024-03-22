@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 
+
 from models.cell import Cell
 from models.ship import Ship
 from models.game_board import GameBoard
@@ -22,6 +23,11 @@ class Battleship(unittest.TestCase):
         cruiser.hit()
         self.assertEqual(cruiser.health, 0)
         self.assertEqual(cruiser.is_sunk(), True)
+
+    def test_ship_expansion(self):
+        frigate = Ship("Frigate", 3)
+        self.assertEqual(type(frigate), Ship)
+        self.assertEqual(frigate.name, "Frigate")
 
     def test_cell(self):
         cell = Cell()
