@@ -12,12 +12,14 @@ class GamePlay(object):
                 Ship("BATTLESHIP", 4), 
                 Ship("CRUISER", 3), 
                 Ship("SUBMARINE", 3), 
+                Ship("FRIGATE", 3),
                 Ship("DESTROYER", 2)
             ],
             'cpu': [ 
                 Ship("BATTLESHIP", 4), 
                 Ship("CRUISER", 3), 
                 Ship("SUBMARINE", 3), 
+                Ship("FRIGATE", 3),
                 Ship("DESTROYER", 2)
             ]
         }

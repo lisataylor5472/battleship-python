@@ -10,6 +10,7 @@ class GameBoard(object):
             'D': [Cell() for n in range(6)],
             'E': [Cell() for n in range(6)],
             'F': [Cell() for n in range(6)],
+            'G': [Cell() for n in range(6)],
         }
 
     def is_valid_coordinate(self, coordinate):
